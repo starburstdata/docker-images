@@ -3,21 +3,34 @@ services:
 
   salt:
     image: 'starburstdata/salt-master:2017.7.2'
+    container_name: salt-master
+    hostname: salt-master
     ports:
       - '4505:4505'
       - '4506:4506'
 
-  salt-minion-centos1:
+  salt-minion:
     image: 'starburstdata/salt-minion-centos:2017.7.2'
+    container_name: salt-minion
+    hostname: salt-minion
+
+  cluster-master:
+    image: 'starburstdata/salt-minion-centos:2017.7.2'
+    container_name: cluster-master
+    hostname: cluster-master
     volumes:
       - ./config/minion-master-grains:/etc/salt/grains
 
-  salt-minion-centos2:
+  cluster-slave1:
     image: 'starburstdata/salt-minion-centos:2017.7.2'
+    container_name: cluster-slave1
+    hostname: cluster-slave1
     volumes:
       - ./config/minion-slave-grains:/etc/salt/grains
 
-  salt-minion-centos3:
+  cluster-slave2:
     image: 'starburstdata/salt-minion-centos:2017.7.2'
+    container_name: cluster-slave2
+    hostname: cluster-slave2
     volumes:
       - ./config/minion-slave-grains:/etc/salt/grains
