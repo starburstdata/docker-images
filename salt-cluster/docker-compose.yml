@@ -1,0 +1,23 @@
+version: '2'
+services:
+
+  salt:
+    image: 'starburstdata/salt-master:2017.7.2'
+    ports:
+      - '4505:4505'
+      - '4506:4506'
+
+  salt-minion-centos1:
+    image: 'starburstdata/salt-minion-centos:2017.7.2'
+    volumes:
+      - ./config/minion-master-grains:/etc/salt/grains
+
+  salt-minion-centos2:
+    image: 'starburstdata/salt-minion-centos:2017.7.2'
+    volumes:
+      - ./config/minion-slave-grains:/etc/salt/grains
+
+  salt-minion-centos3:
+    image: 'starburstdata/salt-minion-centos:2017.7.2'
+    volumes:
+      - ./config/minion-slave-grains:/etc/salt/grains
