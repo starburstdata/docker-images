@@ -5,7 +5,7 @@ Docker image of Presto with Oracle JDK 8 installed.
 ## Running Presto
 
     docker pull starburstdata/presto
-    docker run -d --name presto presto 
+    docker run -d --name presto starburstdata/presto
 
 ## Running Presto cli client
 
