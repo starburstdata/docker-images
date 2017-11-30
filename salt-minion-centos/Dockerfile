@@ -15,7 +15,11 @@ RUN yum install -y epel-release && \
 # cleanup
 RUN yum -y clean all && rm -rf /tmp/* /var/tmp/*
 
-# copy configuration files
-COPY ./files /
+# copy configuration and 'systemctl' replacement file
+COPY ./files/ /
+
+# For minions that are also test nodes make systemctl replacement executable
+# and fake systemd for salt, see: https://github.com/gdraheim/docker-systemctl-replacement
+RUN chmod +x /usr/bin/systemctl && touch /run/systemd/system
 
 CMD supervisord -c /etc/supervisord.conf
