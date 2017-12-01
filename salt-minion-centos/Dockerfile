@@ -12,6 +12,11 @@ RUN yum install -y epel-release && \
  pip install --upgrade pip && \
  pip install supervisor
 
+# install docker
+RUN yum install -y yum-utils device-mapper-persistent-data lvm2 && \
+ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
+ yum install -y docker-ce
+
 # cleanup
 RUN yum -y clean all && rm -rf /tmp/* /var/tmp/*
 
