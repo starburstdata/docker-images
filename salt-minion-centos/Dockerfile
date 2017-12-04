@@ -17,6 +17,9 @@ RUN yum install -y yum-utils device-mapper-persistent-data lvm2 && \
  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo && \
  yum install -y docker-ce
 
+# install OpenJDK
+RUN yum install -y java-1.8.0-openjdk-devel
+
 # cleanup
 RUN yum -y clean all && rm -rf /tmp/* /var/tmp/*
 
