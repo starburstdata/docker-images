@@ -1,17 +1,14 @@
 FROM prestodb/centos6-oj8:2
 MAINTAINER Grzegorz Kokosiński <grzegorz.kokosinksi@starburstdata.com>
 
-RUN yum install -y tar
+RUN yum install -y tar util-linux
 
-RUN curl -SL http://search.maven.org/remotecontent?filepath=com/facebook/presto/presto-cli/0.188/presto-cli-0.188-executable.jar -o presto-cli.jar
-
-# TODO use starburst release
-RUN curl -SL http://search.maven.org/remotecontent?filepath=com/facebook/presto/presto-server/0.188/presto-server-0.188.tar.gz \
+RUN curl -SL https://s3.us-east-2.amazonaws.com/starburstdata/0.188-s.0.1/presto_server_pkg.0.188-s.0.1.tar.gz \
       | tar xz \
-      && mv $(find -type d -name 'presto-server*') presto-server
+      && rpm -i presto_server_pkg.*/*rpm \
+      && mv $(find -type f -name 'presto-cli*-executable.jar') presto-cli.jar \
+      && rm -rf presto_server_pkg.*
 
-RUN mkdir /presto-server/etc 
+COPY etc /usr/lib/presto/etc
 
-COPY etc /presto-server/etc/
-
-CMD /presto-server/bin/launcher run
+CMD /usr/lib/presto/bin/launcher run
