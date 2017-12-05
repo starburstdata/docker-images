@@ -20,6 +20,9 @@ RUN yum install -y yum-utils device-mapper-persistent-data lvm2 && \
 # install OpenJDK
 RUN yum install -y java-1.8.0-openjdk-devel
 
+# install net-tools
+RUN yum -y install net-tools
+
 # cleanup
 RUN yum -y clean all && rm -rf /tmp/* /var/tmp/*
 
