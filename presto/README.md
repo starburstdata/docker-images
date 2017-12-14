@@ -11,7 +11,7 @@ Docker image of Presto with Oracle JDK 8 installed.
 
 While Presto is started you can
 
-    docker exec -it presto java -jar /presto-cli.jar
+    docker exec -it presto /presto-cli
 
 ## Oracle license
 
