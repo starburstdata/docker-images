@@ -1,5 +1,5 @@
 FROM prestodb/centos6-oj8:2
-MAINTAINER Grzegorz Kokosiński <grzegorz.kokosinksi@starburstdata.com>
+MAINTAINER Grzegorz Kokosiński <grzegorz.kokosinski@starburstdata.com>
 
 RUN yum install -y tar util-linux
 
