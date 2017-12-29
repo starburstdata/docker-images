@@ -18,6 +18,8 @@ RUN yum install -y https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.
  yum install -y java-1.8.0-openjdk-devel && \
  # install net-tools
  yum -y install net-tools && \
+ # install nc
+ yum -y install nc && \
  yum -y clean all && rm -rf /tmp/* /var/tmp/*
 
 # copy configuration and 'systemctl' replacement file
