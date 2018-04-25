@@ -1,5 +1,5 @@
 FROM centos:7.4.1708
-MAINTAINER Starburstdata
+LABEL maintainer="https://www.starburstdata.com/"
 
 # install salt packages
 RUN yum install -y https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm && \
