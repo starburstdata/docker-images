@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Starburstdata
+LABEL maintainer="https://www.starburstdata.com/"
 
 # install salt packages
 RUN apt-get update && \
