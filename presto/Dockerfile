@@ -5,7 +5,7 @@ ARG presto_version=0.195-e.0.6
 ARG dist_location=https://s3.us-east-2.amazonaws.com/starburstdata/presto/starburst/195e/${presto_version}
 
 RUN set -xeu && \
-    yum install -y util-linux `# uuidgen` && \
+    yum install -y util-linux `# uuidgen; TODO remove after https://github.com/prestodb/presto/pull/10670` && \
     yum -y localinstall "${dist_location}/presto-server-rpm-${presto_version}.x86_64.rpm" && \
     curl -fsSL "${dist_location}/presto-cli-${presto_version}-executable.jar" -o /usr/local/bin/presto-cli && \
     chmod -v +x /usr/local/bin/presto-cli && \
