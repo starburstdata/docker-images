@@ -13,6 +13,16 @@ While Presto is started you can
 
     docker exec -it presto /presto-cli
 
+## Custom build
+
+To build a container using rpm and CLI that are not publicly downloadable from the Internet, follow these steps.
+
+1. put the rpm and CLI executable jar in `installdir/` dir.
+2. run something like:
+   ```bash
+   docker build . --build-arg presto_version=0.195-t.0.4 --build-arg dist_location=/installdir
+   ```
+
 ## Oracle license
 
 By using this image, you accept the Oracle Binary Code License Agreement for Java SE available here:
