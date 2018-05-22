@@ -6,7 +6,7 @@ ARG dist_location=https://s3.us-east-2.amazonaws.com/starburstdata/presto/starbu
 
 RUN set -xeu && \
     yum install -y util-linux `# uuidgen` && \
-    rpm -vi "${dist_location}/presto-server-rpm-${presto_version}.x86_64.rpm" && \
+    yum -y localinstall "${dist_location}/presto-server-rpm-${presto_version}.x86_64.rpm" && \
     curl -fsSL "${dist_location}/presto-cli-${presto_version}-executable.jar" -o /usr/local/bin/presto-cli && \
     chmod -v +x /usr/local/bin/presto-cli && \
     ln -vs /usr/local/bin/presto-cli / `# backwards compatibility ` && \
