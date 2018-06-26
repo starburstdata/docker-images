@@ -20,7 +20,7 @@ To build a container using rpm and CLI that are not publicly downloadable from t
 1. put the rpm and CLI executable jar in `installdir/` dir.
 2. run something like:
    ```bash
-   docker build . --build-arg presto_version=0.195-t.0.4 --build-arg dist_location=/installdir
+   docker build . --build-arg presto_version=0.195-t.0.4 --build-arg dist_location=/installdir -t starburstdata/presto:0.195-t.0.4 --squash
    ```
 
 ## Oracle license
