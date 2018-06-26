@@ -9,6 +9,7 @@ COPY ./installdir /installdir
 RUN set -xeu && \
     yum install -y util-linux `# uuidgen; TODO remove after https://github.com/prestodb/presto/pull/10670` && \
     yum -y localinstall "${dist_location}/presto-server-rpm-${presto_version}.x86_64.rpm" && \
+    rpm -qa | grep -q presto-server && \
     cli_location="${dist_location}/presto-cli-${presto_version}-executable.jar" && \
     if test -f "${cli_location}"; then \
         cp -a "${cli_location}" /usr/local/bin/presto-cli; \
