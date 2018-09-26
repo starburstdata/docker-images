@@ -1,7 +1,7 @@
 FROM prestodb/centos6-oj8:2
 LABEL maintainer="https://www.starburstdata.com/"
 
-ARG presto_version=0.195-e.0.6
+ARG presto_version=0.208-e.0.3
 ARG dist_location=""
 
 COPY ./installdir /installdir
