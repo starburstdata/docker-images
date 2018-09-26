@@ -7,7 +7,6 @@ ARG dist_location=""
 COPY ./installdir /installdir
 
 RUN set -xeu && \
-    yum install -y util-linux `# uuidgen; TODO remove after https://github.com/prestodb/presto/pull/10670` && \
     dist="$(/installdir/find-dist-location.sh "${dist_location}" "${presto_version}")" && \
     yum -y localinstall "${dist}/presto-server-rpm-${presto_version}.x86_64.rpm" && \
     rpm -qa | grep -q presto-server && \
