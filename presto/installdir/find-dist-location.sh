@@ -13,7 +13,7 @@ fi
 
 dist_location="https://s3.us-east-2.amazonaws.com/starburstdata/presto"
 
-if [[ "${presto_version}" =~ "-t." ]]; then
+if [[ "${presto_version}" = *"-t."* ]]; then
     dist_location="${dist_location}/teradata"
 else
     dist_location="${dist_location}/starburst"
