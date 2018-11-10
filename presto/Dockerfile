@@ -4,12 +4,12 @@ LABEL maintainer="https://www.starburstdata.com/"
 ARG presto_version=0.208-e.0.8
 ARG dist_location=""
 
-COPY ./installdir /installdir
-
 RUN yum -y install java-1.8.0-openjdk && \
     yum clean all && \
     rm -rf /var/cache/yum && \
     echo OK
+
+COPY ./installdir /installdir
 
 RUN set -xeu && \
     dist="$(/installdir/find-dist-location.sh "${dist_location}" "${presto_version}")" && \
