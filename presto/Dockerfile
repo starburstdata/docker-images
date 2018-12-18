@@ -1,13 +1,8 @@
-FROM centos:7.5.1804
+FROM prestodb/centos6-oj8:10
 LABEL maintainer="https://www.starburstdata.com/"
 
 ARG presto_version=0.208-e.0.8
 ARG dist_location=""
-
-RUN yum -y install java-1.8.0-openjdk && \
-    yum clean all && \
-    rm -rf /var/cache/yum && \
-    echo OK
 
 COPY ./installdir /installdir
 
