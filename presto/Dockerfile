@@ -1,12 +1,12 @@
 FROM centos:7.5.1804
 LABEL maintainer="https://www.starburstdata.com/"
 
-ARG presto_version=0.208-e.0.8
+ARG presto_version=0.213-e.0.1
 ARG dist_location=""
 
 COPY ./installdir /installdir
 
-RUN yum -y install java-1.8.0-openjdk && \
+RUN yum -y install java-1.8.0-openjdk less && \
     yum clean all && \
     rm -rf /var/cache/yum && \
     echo OK
