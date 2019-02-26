@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+################################################################################
+# Copyright (c) 2018 Starburst Data, Inc. All rights reserved.
+#
+# All information herein is owned by Starburst Data Inc. and its licensors
+# ("Starburst"), if any.  This software and the concepts it embodies are
+# proprietary to Starburst, are protected by trade secret and copyright law,
+# and may be covered by patents in the U.S. and abroad.  Distribution,
+# reproduction, and relicensing are strictly forbidden without Starburst's prior
+# written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED.  THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+# AND NONINFRINGEMENT ARE EXPRESSLY DISCLAIMED. IN NO EVENT SHALL STARBURST BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR ITS USE
+# EVEN IF STARBURST HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Please refer to your agreement(s) with Starburst for further information.
+################################################################################
+
+set -euo pipefail
+
+hive "$@"

@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!--
+  Copyright (c) 2018 Starburst Data, Inc. All rights reserved.
+
+  All information herein is owned by Starburst Data Inc. and its licensors
+  ("Starburst"), if any.  This software and the concepts it embodies are
+  proprietary to Starburst, are protected by trade secret and copyright law,
+  and may be covered by patents in the U.S. and abroad.  Distribution,
+  reproduction, and relicensing are strictly forbidden without Starburst's prior
+  written permission.
+
+  THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED.  THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+  AND NONINFRINGEMENT ARE EXPRESSLY DISCLAIMED. IN NO EVENT SHALL STARBURST BE
+  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR
+  OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR ITS USE
+  EVEN IF STARBURST HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<configuration>
+    <property>
+        <name>hive.metastore.warehouse.dir</name>
+        <value>file:///no/default/location/defined/please/create/new/schema/with/location/explicitly/set/</value>
+    </property>
+
+    <property>
+        <name>fs.s3.impl</name>
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+    </property>
+
+    <property>
+        <name>fs.s3n.impl</name>
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.endpoint</name>
+        <value>%S3_ENDPOINT%</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.access.key</name>
+        <value>%S3_ACCESS_KEY%</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.secret.key</name>
+        <value>%S3_SECRET_KEY%</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>%HIVE_METASTORE_JDBC_URL%</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>%HIVE_METASTORE_DRIVER%</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>%HIVE_METASTORE_USER%</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>%HIVE_METASTORE_PASSWORD%</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoCreateSchema</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoCreateTables</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoCreateColumns</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoCreateConstraints</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>datanucleus.fixedDatastore</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoStartMechanism</name>
+        <value>SchemaTable</value>
+    </property>
+
+    <property>
+        <name>hive.metastore.schema.verification</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>hive.security.authorization.createtable.owner.grants</name>
+        <value>ALL</value>
+        <description>The set of privileges automatically granted to the owner whenever a table gets created.
+        </description>
+    </property>
+</configuration>
