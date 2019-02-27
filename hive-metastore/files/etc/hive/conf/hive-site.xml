@@ -108,4 +108,19 @@
         <description>The set of privileges automatically granted to the owner whenever a table gets created.
         </description>
     </property>
+
+	<property>
+        <name>hive.metastore.sasl.enabled</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>hive.metastore.kerberos.keytab.file</name>
+        <value>/etc/hive/conf/hive-metastore.keytab</value>
+    </property>
+
+    <property>
+        <name>hive.metastore.kerberos.principal</name>
+        <value>%HIVE_METASTORE_KERBEROS_PRINCIPAL%</value>
+    </property>
 </configuration>

@@ -26,6 +26,7 @@ test -v HIVE_METASTORE_JDBC_URL
 test -v HIVE_METASTORE_DRIVER
 test -v HIVE_METASTORE_USER
 test -v HIVE_METASTORE_PASSWORD
+test -v HIVE_METASTORE_KERBEROS_PRINCIPAL
 
 sed -i \
   -e "s|%HIVE_METASTORE_JDBC_URL%|${HIVE_METASTORE_JDBC_URL}|g" \
@@ -35,7 +36,7 @@ sed -i \
   -e "s|%S3_ENDPOINT%|${S3_ENDPOINT:-}|g" \
   -e "s|%S3_ACCESS_KEY%|${S3_ACCESS_KEY:-}|g" \
   -e "s|%S3_SECRET_KEY%|${S3_SECRET_KEY:-}|g" \
-  -e "s|%REGION%|${REGION:-}|g" \
+  -e "s|%HIVE_METASTORE_KERBEROS_PRINCIPAL%|${HIVE_METASTORE_KERBEROS_PRINCIPAL:-}|g" \
   /etc/hive/conf/hive-site.xml
 
 export HIVE_METASTORE_DB_HOST="$(echo "$HIVE_METASTORE_JDBC_URL" | cut -d / -f 3 | cut -d : -f 1)"

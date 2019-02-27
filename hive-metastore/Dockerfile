@@ -47,6 +47,11 @@ RUN yum -y install mysql mysql-connector-java postgresql postgresql-jdbc && \
     ln -s /usr/share/java/mysql-connector-java.jar /usr/hdp/current/hive-metastore/lib/ && \
     echo OK
 
+RUN yum -y install krb5-workstation && \
+    yum clean all && \
+    rm -rf /var/cache/yum && \
+    echo OK
+
 # Replace AWS SDK 1.10.6 with 1.11.234 as it is required by Minio
 RUN find / -name aws-java*jar | xargs rm
 COPY ./lib/* /usr/hdp/2.6.3.0-235/hadoop/lib/
