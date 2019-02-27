@@ -19,7 +19,7 @@ else
     dist_location="${dist_location}/starburst"
 fi
 
-version_dir="$(echo "${presto_version}" | sed -ne 's/^0.\([0-9]\+\)-\([a-z]\)\..*$/\1\2/p')"
+version_dir="$(echo "${presto_version}" | sed -ne 's/^\([0-9]\+\)-\([a-z]\)\..*$/\1\2/p')"
 test "${version_dir}" != "" # since we used `sed -n`, it will output anything only if there is a match
 dist_location="${dist_location}/${version_dir}"
 

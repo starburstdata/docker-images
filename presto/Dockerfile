@@ -1,7 +1,7 @@
 FROM centos:7.5.1804
 LABEL maintainer="https://www.starburstdata.com/"
 
-ARG presto_version=0.213-e.0.1
+ARG presto_version=302-e.2
 ARG dist_location=""
 
 COPY ./installdir /installdir
