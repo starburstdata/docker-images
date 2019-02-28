@@ -22,7 +22,8 @@ version: '3.3'
 services:
 
   metastore:
-    build: .
+    image: starburstdata/hive-metastore:b33cb3b
+    #build: .
     restart: on-failure
     links:
       - "postgres:postgres.docker.starburstdata.com"
