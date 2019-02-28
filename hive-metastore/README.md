@@ -1,4 +1,4 @@
-# Presto
+# Hive Metastore
 
 Docker image of Hive metastore with OpenJDK 8 installed.
 
