@@ -16,12 +16,12 @@ This is required step to use Hive Metastore docker-compose cluster.
 
 Generating Kerberos principal and keytab (notice that Hive Metastore node is named metastore in docker-compose cluster):
 
-    /usr/sbin/kadmin.local -q "addprinc -randkey hive-metastore/metastore@LABS.TERADATA.COM"
+    /usr/sbin/kadmin.local -q "addprinc -randkey hive-metastore/metastore@LABS.STARBURSTDATA.COM"
     /usr/sbin/kadmin.local -q "xst -norandkey -k /tmp/hive-metastore.keytab hive-metastore/metastore"
 
 Then file hive-metastore.keytab was copied and below was exported:
 
-    export HIVE_METASTORE_KERBEROS_PRINCIPAL=hive-metastore/metastore@LABS.TERADATA.COM
+    export HIVE_METASTORE_KERBEROS_PRINCIPAL=hive-metastore/metastore@LABS.STARBURSTDATA.COM
 
 Then `krb5.conf` was used with following content:
 
@@ -29,7 +29,7 @@ Then `krb5.conf` was used with following content:
 	 default = FILE:/var/log/krb5libs.log
 
 	[libdefaults]
-	 default_realm = LABS.TERADATA.COM
+	 default_realm = LABS.STARBURSTDATA.COM
 	 dns_lookup_realm = false
 	 dns_lookup_kdc = false
 	 ticket_lifetime = 24h
@@ -37,7 +37,7 @@ Then `krb5.conf` was used with following content:
 	 forwardable = true
 
 	[realms]
-	 LABS.TERADATA.COM = {
+	 LABS.STARBURSTDATA.COM = {
 	  kdc = hadoop-master:88
 	  admin_server = hadoop-master
 	 }
