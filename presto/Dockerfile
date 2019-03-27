@@ -25,6 +25,7 @@ RUN set -xeu && \
     ln -vs /usr/local/bin/presto-cli / `# backwards compatibility ` && \
     yum clean all && \
     rm -vr /installdir && \
+    rm -rf /etc/presto && \
     echo OK
 
 COPY etc /usr/lib/presto/etc
