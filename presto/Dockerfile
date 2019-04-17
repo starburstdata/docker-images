@@ -3,6 +3,7 @@ LABEL maintainer="https://www.starburstdata.com/"
 
 ARG presto_version=302-e.7
 ARG dist_location=""
+ARG default_port=8080
 
 COPY ./installdir /installdir
 
@@ -28,5 +29,7 @@ RUN set -xeu && \
     echo OK
 
 COPY etc /usr/lib/presto/etc
+
+RUN sed -i "s/8080/${default_port}/g" /usr/lib/presto/etc/config.properties
 
 CMD /usr/lib/presto/bin/launcher run

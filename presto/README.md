@@ -37,6 +37,15 @@ To build a container using rpm and CLI that are not publicly downloadable from t
    docker build . --build-arg "presto_version=$VERSION" --build-arg dist_location=/installdir -t "starburstdata/presto:$VERSION" --squash
    docker push "starburstdata/presto:$VERSION"
    ```
+   
+To use port that is not `8080`, you can do the following:
+
+```bash  
+export PRESTO_PORT=9000
+docker build . -t presto --build-arg default_port=$PRESTO_PORT && / 
+docker run -d --name presto -p 127.0.0.1:$PRESTO_PORT:$PRESTO_PORT -t presto && /
+open http://localhost:$PRESTO_PORT
+```
 
 ## OpenJDK license
 
