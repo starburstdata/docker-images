@@ -5,6 +5,8 @@ ARG presto_version=302-e.7
 ARG dist_location=""
 ARG default_port=8080
 
+ENV PRESTO_HTTP_PORT=${default_port}
+
 COPY ./installdir /installdir
 
 RUN yum -y install java-1.8.0-openjdk less && \
@@ -30,6 +32,4 @@ RUN set -xeu && \
 
 COPY etc /usr/lib/presto/etc
 
-RUN sed -i "s/8080/${default_port}/g" /usr/lib/presto/etc/config.properties
-
-CMD /usr/lib/presto/bin/launcher run
+CMD /usr/lib/presto/bin/launcher -Dhttp-server.http.port="${PRESTO_HTTP_PORT}" -Ddiscovery.uri="http://localhost:${PRESTO_HTTP_PORT}" run
