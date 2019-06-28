@@ -1,5 +1,5 @@
 # Presto
-           
+
 Docker image of Presto with OpenJDK 8 installed.
 
 ## Running Presto
@@ -33,7 +33,7 @@ To build a container using rpm and CLI that are not publicly downloadable from t
 1. put the rpm and CLI executable jar in `installdir/` dir.
 2. run something like:
    ```bash
-   VERSION=302-e.7
+   VERSION=312-e.1
    docker build . --build-arg "presto_version=$VERSION" --build-arg dist_location=/installdir -t "starburstdata/presto:$VERSION" --squash
    docker push "starburstdata/presto:$VERSION"
    ```
