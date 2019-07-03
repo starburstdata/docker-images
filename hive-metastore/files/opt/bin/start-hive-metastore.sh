@@ -47,6 +47,21 @@ sed -i \
   -e "s|%GOOGLE_CLOUD_KEY_FILE_PATH%|${GOOGLE_CLOUD_KEY_FILE_PATH:-}|g" \
   /etc/hive/conf/hive-site.xml
 
+retry() {
+    wait_timeout="300"
+    retry_delay="1"
+    shift 2
+
+    END=$(($(date +%s) + ${wait_timeout}))
+
+    while (( $(date +%s) < $END )); do
+        "$@" && return
+        sleep "${retry_delay}"
+    done
+
+    echo "$0: retrying [$*] timed out" >&2
+}
+
 export HIVE_METASTORE_DB_HOST="$(echo "$HIVE_METASTORE_JDBC_URL" | cut -d / -f 3 | cut -d : -f 1)"
 export HIVE_METASTORE_DB_NAME="$(echo "$HIVE_METASTORE_JDBC_URL" | cut -d / -f 4)"
 if [[ "$HIVE_METASTORE_DRIVER" == com.mysql.jdbc.Driver ]]; then
@@ -54,8 +69,10 @@ if [[ "$HIVE_METASTORE_DRIVER" == com.mysql.jdbc.Driver ]]; then
     function sql() {
         mysql --host="$HIVE_METASTORE_DB_HOST" --user="$HIVE_METASTORE_USER" --password="$HIVE_METASTORE_PASSWORD" "$HIVE_METASTORE_DB_NAME" "$@"
     }
-    # Make sure that postgres is accessible
-    sql -e 'SELECT 1'
+    declare -fxr sql
+
+    # Make sure that mysql is accessible
+    retry timeout 5 bash -ce "sql -e 'SELECT 1'"
 
     if ! sql -e 'SELECT 1 FROM DBS LIMIT 1'; then
         find /opt/sql/mysql -type f | sort -n | while read sqlFile; do
@@ -67,9 +84,10 @@ elif [[ "$HIVE_METASTORE_DRIVER" == org.postgresql.Driver ]]; then
         export PGPASSWORD="$HIVE_METASTORE_PASSWORD"
         psql --host="$HIVE_METASTORE_DB_HOST" --username="$HIVE_METASTORE_USER" "$HIVE_METASTORE_DB_NAME" "$@"
     }
+    declare -fxr sql
 
     # Make sure that postgres is accessible
-    sql -c 'SELECT 1'
+    retry timeout 5 bash -ce "sql -c 'SELECT 1'"
 
     if ! sql -c 'SELECT 1 FROM "DBS" LIMIT 1'; then
         find /opt/sql/postgres -type f | sort -n | while read sqlFile; do
