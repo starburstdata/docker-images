@@ -3,6 +3,9 @@ LABEL maintainer="https://www.starburstdata.com/"
 
 ARG presto_version=312-e.1
 ARG dist_location=""
+ARG default_port=8080
+
+ENV PRESTO_HTTP_PORT=${default_port}
 
 COPY ./installdir /installdir
 
@@ -29,4 +32,4 @@ RUN set -xeu && \
 
 COPY etc /usr/lib/presto/etc
 
-CMD /usr/lib/presto/bin/launcher run
+CMD /usr/lib/presto/bin/launcher -Dhttp-server.http.port="${PRESTO_HTTP_PORT}" -Ddiscovery.uri="http://localhost:${PRESTO_HTTP_PORT}" run
