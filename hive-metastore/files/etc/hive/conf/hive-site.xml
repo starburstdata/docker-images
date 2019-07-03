@@ -109,7 +109,7 @@
         </description>
     </property>
 
-	<property>
+    <property>
         <name>hive.metastore.sasl.enabled</name>
         <value>true</value>
     </property>
