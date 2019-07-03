@@ -31,6 +31,9 @@ test -v S3_ENDPOINT
 test -v S3_ACCESS_KEY
 test -v S3_SECRET_KEY
 
+S3_ACCESS_KEY=$(echo ${S3_ACCESS_KEY} | tr -d '\n ')
+S3_SECRET_KEY=$(echo ${S3_SECRET_KEY} | tr -d '\n ')
+
 sed -i \
   -e "s|%HIVE_METASTORE_JDBC_URL%|${HIVE_METASTORE_JDBC_URL}|g" \
   -e "s|%HIVE_METASTORE_DRIVER%|${HIVE_METASTORE_DRIVER}|g" \
