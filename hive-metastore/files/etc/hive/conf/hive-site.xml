@@ -48,6 +48,21 @@
     </property>
 
     <property>
+        <name>fs.gs.auth.service.account.json.keyfile</name>
+        <value>%GOOGLE_CLOUD_KEY_FILE_PATH%</value>
+    </property>
+
+    <property>
+        <name>fs.gs.impl</name>
+        <value>com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem</value>
+    </property>
+
+    <property>
+        <name>fs.AbstractFileSystem.gs.impl</name>
+        <value>com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS</value>
+    </property>
+
+    <property>
         <name>javax.jdo.option.ConnectionURL</name>
         <value>%HIVE_METASTORE_JDBC_URL%</value>
     </property>

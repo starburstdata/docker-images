@@ -30,6 +30,7 @@ test -v HIVE_METASTORE_KERBEROS_PRINCIPAL
 test -v S3_ENDPOINT
 test -v S3_ACCESS_KEY
 test -v S3_SECRET_KEY
+test -v GOOGLE_CLOUD_KEY_FILE_PATH
 
 S3_ACCESS_KEY=$(echo ${S3_ACCESS_KEY} | tr -d '\n ')
 S3_SECRET_KEY=$(echo ${S3_SECRET_KEY} | tr -d '\n ')
@@ -43,6 +44,7 @@ sed -i \
   -e "s|%S3_ACCESS_KEY%|${S3_ACCESS_KEY:-}|g" \
   -e "s|%S3_SECRET_KEY%|${S3_SECRET_KEY:-}|g" \
   -e "s|%HIVE_METASTORE_KERBEROS_PRINCIPAL%|${HIVE_METASTORE_KERBEROS_PRINCIPAL:-}|g" \
+  -e "s|%GOOGLE_CLOUD_KEY_FILE_PATH%|${GOOGLE_CLOUD_KEY_FILE_PATH:-}|g" \
   /etc/hive/conf/hive-site.xml
 
 export HIVE_METASTORE_DB_HOST="$(echo "$HIVE_METASTORE_JDBC_URL" | cut -d / -f 3 | cut -d : -f 1)"
