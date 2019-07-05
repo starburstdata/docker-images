@@ -1,4 +1,5 @@
-FROM centos:7.5.1804
+ARG base_image=centos:7.5.1804
+FROM ${base_image}
 LABEL maintainer="https://www.starburstdata.com/"
 
 ARG presto_version=312-e.2
