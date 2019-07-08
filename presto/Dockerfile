@@ -27,6 +27,6 @@ RUN set -xeu && \
     rm -vr /installdir && \
     echo OK
 
-COPY etc /usr/lib/presto/etc
+COPY etc /etc/presto
 
 CMD /usr/lib/presto/bin/launcher run
