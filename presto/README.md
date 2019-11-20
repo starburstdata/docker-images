@@ -28,15 +28,21 @@ Presto cluster overview webpage is available at [localhost:8080](http://localhos
 
 ## Custom build
 
-To build a container using rpm and CLI that are not publicly downloadable from the Internet, follow these steps.
+To build a container using RPM and CLI that are not publicly downloadable from the Internet run:
+```bash
+presto_rpm=<location of presto-server-rpm fil>
+presto_cli=<location of presto-cli executable jar>
+presto_version=<presto version>
+./build-image.sh --rpm "${presto_rpm}" --cli "${presto_cli}" --version "${presto_version}"
+```
 
-1. put the rpm and CLI executable jar in `installdir/` dir.
-2. run something like:
-   ```bash
-   VERSION=323-e.0
-   docker build . --build-arg "presto_version=$VERSION" --build-arg dist_location=/installdir -t "starburstdata/presto:$VERSION" --squash
-   docker push "starburstdata/presto:$VERSION"
-   ```
+## Custom build (incremetal) FOR DEVELOPMENT PURPOSES ONLY
+
+During development cycle you can reduce build time and last layer size using `--incremetal` flag:
+```bash
+./build-image.sh --incremental --rpm "${presto_rpm}" --cli "${presto_cli}" --version "${presto_version}"
+```
+This way each consecutive build with reuse previously created docker image and create a layer with differences on top of it.
 
 ## OpenJDK license
 
