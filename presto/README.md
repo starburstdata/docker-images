@@ -1,6 +1,6 @@
 # Presto
 
-Docker image of Presto with OpenJDK 8 installed.
+Docker image of Presto with OpenJDK 11 installed.
 
 ## Running Presto
 

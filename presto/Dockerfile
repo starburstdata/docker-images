@@ -4,7 +4,7 @@ LABEL maintainer="https://www.starburstdata.com/"
 ARG presto_version=323-e.0
 ARG dist_location=""
 
-RUN yum -y install java-1.8.0-openjdk less && \
+RUN yum -y install java-11-openjdk less && \
     yum clean all && \
     rm -rf /var/cache/yum && \
     echo OK
