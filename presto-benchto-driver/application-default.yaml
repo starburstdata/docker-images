@@ -1,0 +1,23 @@
+benchmark-service:
+  url: http://benchto.aws.starburstdata.com
+
+data-sources:
+  presto:
+    url: jdbc:presto://localhost:8080
+    username: na
+    driver-class-name: com.facebook.presto.jdbc.PrestoDriver
+
+environment:
+  name: develop
+
+presto:
+  url: http://localhost:8080
+
+macros:
+  sleep-4s:
+    command: echo "Sleeping for 4s" && sleep 4
+
+benchmark:
+  feature:
+    presto:
+      metrics.collection.enabled: true
