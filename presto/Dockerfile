@@ -1,7 +1,7 @@
 FROM centos:7.5.1804
 LABEL maintainer="https://www.starburstdata.com/"
 
-ARG presto_version=312-e.14
+ARG presto_version=323-e.1
 ARG dist_location=""
 
 RUN yum -y install java-11-openjdk less && \
