@@ -10,16 +10,16 @@ function usage()
 {
   echo "\
 `cmd` [OPTIONS...]
--r, --rpm; Set presto server RPM file location
--c, --cli; Set presto CLI executable jar location
--v, --version; Set presto version
+-v, --version; Version with which to tag the resulting image; usually the same as the Presto version
+-a, --archive; Local path to Presto server tar.gz archive
+-c, --cli; Local path to Presto CLI executable jar
 -i, --incremental; Allow incremetal build
 " | column -t -s ";"
 }
 
 INCREMETAL=false
 
-options=$(getopt -o r:c:v:i --long rpm:,cli:,version:,incremental -n 'parse-options' -- "$@")
+options=$(getopt -o v:a:ic: --long version:,archive:,incremental,cli: -n 'parse-options' -- "$@")
 
 if [ $? != 0 ]; then
   echo "Failed parsing options." >&2
@@ -28,18 +28,24 @@ fi
 
 while true; do
   case "$1" in
-    -r | --rpm ) PRESTO_RPM=$2; shift 2 ;;
-    -c | --cli ) PRESTO_CLI=$2; shift 2 ;;
-    -v | --version ) PRESTO_VERSION=$2; shift 2;;
+    -v | --version ) VERSION=$2; shift 2;;
+    -a | --archive ) PRESTO_ARCHIVE=$2; shift 2;;
     -i | --incremental) INCREMETAL=true; shift ;;
+    -c | --cli) PRESTO_CLI=$2; shift 2 ;;
     -- ) shift; break ;;
     "" ) break ;;
     * ) echo "Unknown option provided ${1}"; usage; exit 1; ;;
   esac
 done
 
-if [ -z "${PRESTO_RPM}" ]; then
-  echo "-r/--rpm option is missing"
+if [ -z "${VERSION}" ]; then
+  echo "-a/--archive option is missing"
+  usage
+  exit 1
+fi
+
+if [ -z "${PRESTO_ARCHIVE}" ]; then
+  echo "-a/--archive option is missing"
   usage
   exit 1
 fi
@@ -50,41 +56,23 @@ if [ -z "${PRESTO_CLI}" ]; then
   exit 1
 fi
 
-if [ -z "${PRESTO_VERSION}" ]; then
-  echo "-v/--version option is missing"
-  usage
-  exit 1
-fi
-
 set -xeuo pipefail
 
-PRESTO_RPM_BASENAME=$(basename $PRESTO_RPM)
-PRESTO_CLI_BASENAME=$(basename $PRESTO_CLI)
-
-function cleanup {
-  rm -f "installdir/${PRESTO_RPM_BASENAME}"
-  rm -f "installdir/${PRESTO_CLI_BASENAME}"
-}
-trap cleanup EXIT
-
-cp "${PRESTO_RPM}" installdir
-cp "${PRESTO_CLI}" installdir
-
-IMAGE_NAME=starburstdata/presto:${PRESTO_VERSION}
+IMAGE_NAME=starburstdata/presto:${VERSION}
 
 if [ "${INCREMETAL}" = true ] && [[ $(docker image list -q ${IMAGE_NAME}) ]]; then
   echo "Running incremetal build..."
   docker build . \
-    --build-arg "presto_version=${PRESTO_VERSION}" \
+    --build-arg "presto_archive=${PRESTO_ARCHIVE}" \
+    --build-arg "presto_cli=${PRESTO_CLI}" \
     --build-arg "BASE_IMAGE=${IMAGE_NAME}" \
-    --build-arg dist_location=/installdir \
     -t "${IMAGE_NAME}" \
     -f incremental.Dockerfile \
     --squash --rm
 else
   docker build . \
-    --build-arg "presto_version=${PRESTO_VERSION}" \
-    --build-arg dist_location=/installdir \
+    --build-arg "presto_archive=${PRESTO_ARCHIVE}" \
+    --build-arg "presto_cli=${PRESTO_CLI}" \
     -t "${IMAGE_NAME}" \
     --squash --rm
 fi
