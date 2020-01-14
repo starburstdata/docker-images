@@ -36,6 +36,7 @@ sed -i \
   -e "s|%S3_ENDPOINT%|${S3_ENDPOINT:-}|g" \
   -e "s|%S3_ACCESS_KEY%|${S3_ACCESS_KEY:-}|g" \
   -e "s|%S3_SECRET_KEY%|${S3_SECRET_KEY:-}|g" \
+  -e "s|%S3_PATH_STYLE_ACCESS%|${S3_PATH_STYLE_ACCESS:-false}|g" \
   -e "s|%HIVE_METASTORE_KERBEROS_PRINCIPAL%|${HIVE_METASTORE_KERBEROS_PRINCIPAL:-}|g" \
   /etc/hive/conf/hive-site.xml
 

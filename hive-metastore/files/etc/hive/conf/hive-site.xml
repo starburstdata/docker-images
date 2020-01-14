@@ -47,6 +47,11 @@
         <value>%S3_SECRET_KEY%</value>
     </property>
 
+   <property>
+        <name>fs.s3a.path.style.access</name>
+        <value>%S3_PATH_STYLE_ACCESS%</value>
+    </property>
+
     <property>
         <name>javax.jdo.option.ConnectionURL</name>
         <value>%HIVE_METASTORE_JDBC_URL%</value>
