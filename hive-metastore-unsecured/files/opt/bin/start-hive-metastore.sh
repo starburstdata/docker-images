@@ -74,4 +74,4 @@ else
 fi
 
 # log threshold is set to INFO to avoid log pollution from Datanucleus
-hive --service metastore --hiveconf hive.root.logger=INFO,console --hiveconf hive.log.threshold=INFO
+exec hive --service metastore --hiveconf hive.root.logger=INFO,console --hiveconf hive.log.threshold=INFO
