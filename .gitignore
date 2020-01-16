@@ -3,3 +3,4 @@
 presto/installdir/presto-cli-*-executable.jar
 presto/installdir/presto-server-rpm-*.x86_64.rpm
 .DS_Store
+*.swp
