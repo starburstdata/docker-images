@@ -24,6 +24,7 @@ RUN set -xeu && \
     chmod -v +x /usr/local/bin/presto-cli && \
     ln -vs /usr/local/bin/presto-cli / `# backwards compatibility ` && \
     yum clean all && \
+    rm -vr /var/tmp && \
     rm -vr /installdir && \
     echo OK
 
