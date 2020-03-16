@@ -1,8 +1,10 @@
 FROM registry.redhat.io/ubi8/ubi
 LABEL maintainer="https://www.starburstdata.com/"
 
-ARG presto_version=323-e.4
+ARG presto_version=323-e.7
 ARG dist_location=""
+
+RUN yum -y update-minimal --security --setopt=tsflags=nodocs
 
 # explicitly installing python3 prior to python2 so that the a later python3 install would not delete the python symlink created below
 RUN set -eux && \
