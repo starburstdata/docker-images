@@ -1,7 +1,7 @@
 FROM registry.redhat.io/ubi8/ubi
 LABEL maintainer="https://www.starburstdata.com/"
 
-ARG presto_version=323-e.4
+ARG presto_version=323-e.8
 ARG dist_location=""
 
 RUN set -eux && \
