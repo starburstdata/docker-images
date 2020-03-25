@@ -12,6 +12,7 @@ environment:
 
 presto:
   url: http://localhost:8080
+  username: na
 
 macros:
   sleep-4s:
