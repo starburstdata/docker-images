@@ -70,21 +70,21 @@ trap cleanup EXIT
 cp "${PRESTO_RPM}" installdir
 cp "${PRESTO_CLI}" installdir
 
-IMAGE_NAME=starburstdata/presto:${PRESTO_VERSION}
-
 if [ "${INCREMETAL}" = true ] && [[ $(docker image list -q ${IMAGE_NAME}) ]]; then
   echo "Running incremetal build..."
   docker build . \
     --build-arg "presto_version=${PRESTO_VERSION}" \
     --build-arg "BASE_IMAGE=${IMAGE_NAME}" \
     --build-arg dist_location=/installdir \
-    -t "${IMAGE_NAME}" \
+    -t "starburstdata/presto:${PRESTO_VERSION}" \
+    -t "harbor.starburstdata.net/starburstdata/presto:${PRESTO_VERSION}" \
     -f incremental.Dockerfile \
     --squash --rm
 else
   docker build . \
     --build-arg "presto_version=${PRESTO_VERSION}" \
     --build-arg dist_location=/installdir \
-    -t "${IMAGE_NAME}" \
+    -t "starburstdata/presto:${PRESTO_VERSION}" \
+    -t "harbor.starburstdata.net/starburstdata/presto:${PRESTO_VERSION}" \
     --squash --rm
 fi
