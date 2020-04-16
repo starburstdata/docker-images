@@ -13,7 +13,7 @@ COPY ./installdir /installdir
 
 RUN set -xeu && \
     dist="$(/installdir/find-dist-location.sh "${dist_location}" "${presto_version}")" && \
-    yum -y localinstall "${dist}/presto-server-rpm-${presto_version}.x86_64.rpm" && \
+    yum -y localinstall "${dist}/presto-server-rpm-${presto_version}.rpm" && \
     rpm -qa | grep -q presto-server && \
     cli_location="${dist}/presto-cli-${presto_version}-executable.jar" && \
     if test -f "${cli_location}"; then \
