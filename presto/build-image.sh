@@ -18,6 +18,7 @@ function usage()
 }
 
 INCREMETAL=false
+PRESTO_ARCH=x86_64
 
 options=$(getopt -o r:c:v:i --long rpm:,cli:,version:,incremental -n 'parse-options' -- "$@")
 
@@ -31,6 +32,7 @@ while true; do
     -r | --rpm ) PRESTO_RPM=$2; shift 2 ;;
     -c | --cli ) PRESTO_CLI=$2; shift 2 ;;
     -v | --version ) PRESTO_VERSION=$2; shift 2;;
+    -a | --arch ) PRESTO_ARCH=$2; shift 2;;
     -i | --incremental) INCREMETAL=true; shift ;;
     -- ) shift; break ;;
     "" ) break ;;
@@ -74,6 +76,7 @@ if [ "${INCREMETAL}" = true ] && [[ $(docker image list -q ${IMAGE_NAME}) ]]; th
   echo "Running incremetal build..."
   docker build . \
     --build-arg "presto_version=${PRESTO_VERSION}" \
+    --build-arg "presto_arch=${PRESTO_ARCH}" \
     --build-arg "BASE_IMAGE=${IMAGE_NAME}" \
     --build-arg dist_location=/installdir \
     -t "starburstdata/presto:${PRESTO_VERSION}" \
@@ -83,6 +86,7 @@ if [ "${INCREMETAL}" = true ] && [[ $(docker image list -q ${IMAGE_NAME}) ]]; th
 else
   docker build . \
     --build-arg "presto_version=${PRESTO_VERSION}" \
+    --build-arg "presto_arch=${PRESTO_ARCH}" \
     --build-arg dist_location=/installdir \
     -t "starburstdata/presto:${PRESTO_VERSION}" \
     -t "harbor.starburstdata.net/starburstdata/presto:${PRESTO_VERSION}" \
