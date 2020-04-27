@@ -13,6 +13,7 @@ function usage()
 -r, --rpm; Set presto server RPM file location
 -c, --cli; Set presto CLI executable jar location
 -v, --version; Set presto version
+-a, --argh; Set presto architecture
 -i, --incremental; Allow incremetal build
 " | column -t -s ";"
 }
