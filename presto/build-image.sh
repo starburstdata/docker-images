@@ -14,6 +14,7 @@ function usage()
 -c, --cli; Set presto CLI executable jar location
 -v, --version; Set presto version
 -a, --argh; Set presto architecture
+-t, --tag; Set target built image tag (defaults to presto version)
 -i, --incremental; Allow incremetal build
 " | column -t -s ";"
 }
@@ -34,6 +35,7 @@ while true; do
     -c | --cli ) PRESTO_CLI=$2; shift 2 ;;
     -v | --version ) PRESTO_VERSION=$2; shift 2;;
     -a | --arch ) PRESTO_ARCH=$2; shift 2;;
+    -t | --tag ) IMAGE_TAG=$2; shift 2;;
     -i | --incremental) INCREMETAL=true; shift ;;
     -- ) shift; break ;;
     "" ) break ;;
@@ -59,6 +61,10 @@ if [ -z "${PRESTO_VERSION}" ]; then
   exit 1
 fi
 
+if [ -z "${IMAGE_TAG}" ]; then
+  IMAGE_TAG=${PRESTO_VERSION}
+fi
+
 set -xeuo pipefail
 
 PRESTO_RPM_BASENAME=$(basename $PRESTO_RPM)
@@ -80,8 +86,8 @@ if [ "${INCREMETAL}" = true ] && [[ $(docker image list -q ${IMAGE_NAME}) ]]; th
     --build-arg "presto_arch=${PRESTO_ARCH}" \
     --build-arg "BASE_IMAGE=${IMAGE_NAME}" \
     --build-arg dist_location=/installdir \
-    -t "starburstdata/presto:${PRESTO_VERSION}" \
-    -t "harbor.starburstdata.net/starburstdata/presto:${PRESTO_VERSION}" \
+    -t "starburstdata/presto:${IMAGE_TAG}" \
+    -t "harbor.starburstdata.net/starburstdata/presto:${IMAGE_TAG}" \
     -f incremental.Dockerfile \
     --squash --rm
 else
@@ -89,7 +95,7 @@ else
     --build-arg "presto_version=${PRESTO_VERSION}" \
     --build-arg "presto_arch=${PRESTO_ARCH}" \
     --build-arg dist_location=/installdir \
-    -t "starburstdata/presto:${PRESTO_VERSION}" \
-    -t "harbor.starburstdata.net/starburstdata/presto:${PRESTO_VERSION}" \
+    -t "starburstdata/presto:${IMAGE_TAG}" \
+    -t "harbor.starburstdata.net/starburstdata/presto:${IMAGE_TAG}" \
     --squash --rm
 fi
