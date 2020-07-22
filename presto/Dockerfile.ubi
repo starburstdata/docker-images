@@ -1,49 +1,43 @@
 FROM registry.redhat.io/ubi8/ubi
 LABEL maintainer="https://www.starburstdata.com/"
 
-ARG presto_version=323-e.4
-ARG dist_location=""
+ARG USER="presto"
+ARG GROUP="presto"
+ARG UID="1000"
+ARG GID="1000"
 
 RUN set -eux && \
-    # explicitly installing python3 prior to python2 so that the a later python3 install would not delete the python symlink created below
-    yum install -y yum-utils && \
-    yumdownloader python2 && \
-    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum install -y rpmrebuild && \
-    rpmeditor() { sed -i "s@Provides:\( *\)python2 = \(.*\)@\0\nProvides:\1python = \2\nProvides:\1/usr/bin/python@" $1; }; export -f rpmeditor && \
-    EDITOR=rpmeditor rpmrebuild -enp ./python2*.rpm <<< 'y' && \
-    yum remove -y rpmrebuild epel-release yum-utils && \
     yum -y install python3 && \
-    yum localinstall -y /root/rpmbuild/RPMS/x86_64/python2*.rpm && \
     ln -s /usr/bin/python2 /usr/bin/python && \
     # install JDK 11
     yum -y install java-11-openjdk less && \
     yum clean all && \
     rm -rf /var/tmp && \
-    rm -rf /installdir && \
-    rm -rf /root/rpmbuild && \
     echo OK
 
-COPY ./installdir /installdir
+ENV JAVA_HOME /usr/lib/jvm/java-11
+RUN \
+    groupadd ${GROUP} --gid ${GID} && \
+    useradd ${USER} --uid ${UID} --gid ${GID} && \
+    mkdir -p /usr/lib/presto /data/presto && \
+    chown -R "${USER}:${GROUP}" /usr/lib/presto /data/presto
 
-RUN set -xeu && \
-    dist="$(/installdir/find-dist-location.sh "${dist_location}" "${presto_version}")" && \
-    yum -y localinstall "${dist}/presto-server-rpm-${presto_version}.x86_64.rpm" && \
-    rpm -qa | grep -q presto-server && \
-    cli_location="${dist}/presto-cli-${presto_version}-executable.jar" && \
-    if test -f "${cli_location}"; then \
-        cp -a "${cli_location}" /usr/local/bin/presto-cli; \
-    else \
-        curl -fsSL "${cli_location}" -o /usr/local/bin/presto-cli; \
-    fi && \
-    chmod -v +x /usr/local/bin/presto-cli && \
-    ln -vs /usr/local/bin/presto-cli / `# backwards compatibility ` && \
-    yum clean all && \
-    rm -rf /var/tmp && \
-    rm -rf /installdir && \
-    rm -rf /root/rpmbuild && \
+RUN \
+    rm -rf /var/cache/yum && \
+    rm -rf /tmp/* /var/tmp/* && \
     echo OK
 
-COPY etc /usr/lib/presto/etc
+FROM starburstdata/presto:338-e.0 as stage1
 
-CMD /usr/lib/presto/bin/launcher run
+COPY --from=stage1 /usr/lib/presto /usr/lib/presto
+COPY --from=stage1 /usr/local/bin/starburst-usage-client.jar /usr/local/bin/starburst-usage-client.jar
+RUN \
+    curl -s https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.13.0/jmx_prometheus_javaagent-0.13.0.jar \
+        -o /usr/lib/presto/lib/jmx_prometheus_javaagent-0.13.0.jar && \
+    chmod 0644 /usr/lib/presto/lib/jmx_prometheus_javaagent-0.13.0.jar && \
+    chown "${USER}:${GROUP}" /usr/lib/presto/lib/jmx_prometheus_javaagent-0.13.0.jar
+
+EXPOSE 8080
+USER ${USER}:${GROUP}
+ENV LANG en_US.UTF-8
+CMD ["/usr/lib/presto/bin/launcher", "run"]
