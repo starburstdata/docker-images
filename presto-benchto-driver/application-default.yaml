@@ -22,3 +22,4 @@ benchmark:
   feature:
     presto:
       metrics.collection.enabled: true
+      queryinfo.collection.enabled: true
