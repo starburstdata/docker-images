@@ -15,25 +15,25 @@ COPY ./installdir /installdir
 RUN set -xeu && \
     dist="$(/installdir/find-dist-location.sh "${dist_location}" "${presto_version}")" && \
     if [[ -z "${presto_arch}" ]]; then \
-      presto_rpm="${dist}/presto-server-rpm-${presto_version}.rpm"; \
+      presto_rpm="${dist}/trino-server-rpm-${presto_version}.rpm"; \
     else \
-      presto_rpm="${dist}/presto-server-rpm-${presto_version}.${presto_arch}.rpm"; \
+      presto_rpm="${dist}/trino-server-rpm-${presto_version}.${presto_arch}.rpm"; \
     fi && \
     yum -y localinstall "${presto_rpm}" && \
-    rpm -qa | grep -q presto-server && \
-    cli_location="${dist}/presto-cli-${presto_version}-executable.jar" && \
+    rpm -qa | grep -q trino-server && \
+    cli_location="${dist}/trino-cli-${presto_version}-executable.jar" && \
     if test -f "${cli_location}"; then \
-        cp -a "${cli_location}" /usr/local/bin/presto-cli; \
+        cp -a "${cli_location}" /usr/local/bin/trino-cli; \
     else \
-        curl -fsSL "${cli_location}" -o /usr/local/bin/presto-cli; \
+        curl -fsSL "${cli_location}" -o /usr/local/bin/trino-cli; \
     fi && \
-    chmod -v +x /usr/local/bin/presto-cli && \
-    ln -vs /usr/local/bin/presto-cli / `# backwards compatibility ` && \
+    chmod -v +x /usr/local/bin/trino-cli && \
+    ln -vs /usr/local/bin/trino-cli / `# backwards compatibility ` && \
     yum clean all && \
     rm -vr /var/tmp && \
     rm -vr /installdir && \
     echo OK
 
-COPY etc /usr/lib/presto/etc
+COPY etc /usr/lib/trino/etc
 
-CMD /usr/lib/presto/bin/launcher run
+CMD /usr/lib/trino/bin/launcher run
